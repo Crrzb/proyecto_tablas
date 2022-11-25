@@ -1,8 +1,8 @@
-let nivel = 1;
-let opciones = [0, 0, 0, 0];
-let num_2=0, respuesta_elegida, respuesta_correcta;
+let nivel,num_preg=1;
 let numeros_usados = [];
 
+let opciones = [0, 0, 0, 0];
+let num_2=0, respuesta_elegida, respuesta_correcta;
 
 const texto_nivel = document.querySelector("#h1_nivel");
 const texto_pregunta = document.querySelector("#p_pregunta");
@@ -20,6 +20,7 @@ const btn_siguiente = document.querySelector("#btn_siguiente");
 window.addEventListener("load", setup);
 
 function setup() {
+    nivel = this.window.location.href.split('=')[1];
 
 
     generar_pregunta();
@@ -37,14 +38,12 @@ function setup() {
 
 function generar_pregunta() {
     num_2++;
-    num_2 = Math.floor(Math.random() * (12 - 2) + 2);
-    texto_pregunta.innerText = nivel + " x " + num_2 + " = ?";
+    texto_pregunta.innerText = nivel + " x " + Math.floor(num_2) + " = ?";
 
 }
 
 
 function generar_opciones() {
-
 
     opciones = []
     let posicion_aleatoria = Math.floor(Math.random() * (3 - 0) + 0);
@@ -82,7 +81,7 @@ function actualizar_interfaz() {
     texto_r3.innerText = opciones[2];
     texto_r4.innerText = opciones[3];
 
-    texto_posicion.innerHTML = nivel+" de 12."
+    texto_posicion.innerHTML = num_preg+" de 10."
 
     
 }
@@ -105,12 +104,14 @@ function seleccion_boton(btn_id) {
 
 function siguiente_nivel() {
 
-    if (nivel != 12) {
+    if (num_preg != 12) {
         comprobar_respuesta();
     }else{
-        window.location = "test_terminado.html?nivel="+nivel;
+        window.location = "nivel_terminado.html";
 
     }
+
+    
 
     
 
@@ -118,12 +119,18 @@ function siguiente_nivel() {
 
 function comprobar_respuesta() {
     if (respuesta_elegida != respuesta_correcta) {
-        window.location = "test_terminado.html?nivel="+nivel;
+        alert("intenta de nuevo")
+            texto_r1.disabled = false;
+            texto_r2.disabled = false;
+            texto_r3.disabled = false;
+            texto_r4.disabled = false;
+
+            btn_siguiente.disabled = true;
 
 
     }else{
-        nivel++;
-
+        
+        num_preg++;
         setup();
     }
 }
